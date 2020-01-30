@@ -71,4 +71,37 @@ router.post("/register", (req, res) => {
   });
 });
 
+// @route  GET api/users/login
+// @desc   Login User / Returning the JWT Token
+// @access Public
+router.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  // Find User by email
+  //User.findOne({email:email}), we can do this instead since it has the same name
+  User.findOne({ email }).then(user => {
+    /**
+     * It will give us user if there's a match
+     * If it doesn't match then this user variable will be false
+     * So we'll do a check for user
+     */
+    if (!user) {
+      return res.status(404).json({ email: "User email not found" });
+    }
+    /**Check password */
+    bcrypt.compare(password, user.password).then(
+      //This will give us a true of false value
+      isMatch => {
+        if (isMatch) {
+          /** If the user passed, this is where we want to generate the token */
+          res.json({ msg: "Login Succesful" });
+        } else {
+          /**Validation error: For example, non-valid email */
+          return res.status(400).json({ password: "Password incorrect" });
+        }
+      }
+    );
+  });
+});
 module.exports = router;
