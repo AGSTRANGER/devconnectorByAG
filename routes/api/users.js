@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/keys");
 //Load User model
 const User = require("../../Models/User");
 
@@ -94,8 +95,32 @@ router.post("/login", (req, res) => {
       //This will give us a true of false value
       isMatch => {
         if (isMatch) {
-          /** If the user passed, this is where we want to generate the token */
-          res.json({ msg: "Login Succesful" });
+          /** If the user matched, this is where we want to generate the token */
+          //res.json({ msg: "Login Succesful" });
+          //Sign Token
+          /**First we need to create a jwt payload, you can put whatever userinformation here except for the pwd of course */
+          const payload = { id: user.id, name: user.name, avatar: user.avatar };
+          /** sign will take a payload,
+           * A payload is what we want to include in that token
+           * Because when that token is sent back to the server
+           * It needs to be decoded and the server knows which user it is,
+           * We also need to send a secret or key,
+           * and an expiration
+           */
+          jwt.sign(
+            payload,
+            keys.SecretKey,
+            { expiresIn: 3600 },
+            (error, token) => {
+              res.json({
+                success: true,
+                /**The way we format the tokens in the header is by using Bearer
+                 * It's a protocol
+                 */
+                token: "Bearer " + token
+              });
+            }
+          );
         } else {
           /**Validation error: For example, non-valid email */
           return res.status(400).json({ password: "Password incorrect" });
