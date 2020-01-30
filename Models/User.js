@@ -20,13 +20,15 @@ const UserSchema = new Schema({
   // If not it will put basically a placeholder image
   // We can keep required as true because either way it will have the associated avatar or a place holder
   avatar: {
-    type: String,
-    required: true
+    type: String
+    // Removed true because we are not getting avatar as an input but it's getting stored programmatically
+    // through that file with the email
+    //required: true
   },
   date: {
     type: Date,
-    required: Date.now
+    default: Date.now
   }
 });
 
-module.exports = User = Mongoose.model("users", UserSchema);
+module.exports = User = mongoose.model("users", UserSchema);
