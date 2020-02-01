@@ -140,8 +140,9 @@ router.get(
   //PS: Notice how the Authorization header hasn't been explicitly passed to the code inside passport.js
   // What does session false mean
   passport.authenticate("jwt", { session: false }),
+  // TODO: Why is the user passed in req?
   (req, res) => {
-    res.json({ msg: "Success" });
+    res.json("The current user is " + req.user.name);
   }
 );
 module.exports = router;
