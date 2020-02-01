@@ -7,6 +7,8 @@ const keys = require("../../config/keys");
 //Load User model
 const User = require("../../Models/User");
 
+const passport = require("passport");
+
 // @route  GET api/users/test
 // @desc   Tests users route
 // @access Public
@@ -129,4 +131,17 @@ router.post("/login", (req, res) => {
     );
   });
 });
+// @route  GET api/users/current
+// @desc   Return current user
+// @access Private
+// Session : false because we are not using session
+router.get(
+  "/current",
+  //PS: Notice how the Authorization header hasn't been explicitly passed to the code inside passport.js
+  // What does session false mean
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({ msg: "Success" });
+  }
+);
 module.exports = router;

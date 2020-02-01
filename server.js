@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
+const passport = require("passport");
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
@@ -26,9 +27,14 @@ mongoose
     console.log(err);
   });
 
-app.get("/", (req, res) => {
-  res.send("Hello");
-});
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport Config
+// TODO: Understand the following syntax
+// In passport.js: module.exports = passport => {};
+// TODO: Why are we writing the following line here and note in users.js
+require("./config/passport")(passport);
 
 // Use routes
 app.use("/api/users", users);
