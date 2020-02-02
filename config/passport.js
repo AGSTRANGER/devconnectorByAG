@@ -13,7 +13,19 @@ opts.secretOrKey = keys.SecretKey;
 // #RR:require("./config/passport")(passport);
 
 module.exports = passport => {
-  // jwt_payload will give us the user info that we included in routes/users.js
+  // jwt_payload will give us the user info that we included in routes/users.js when the user logged-in
+  /**
+   *  const payload = { id: user.id, name: user.name, avatar: user.avatar };
+          /** sign will take a payload,
+           * A payload is what we want to include in that token
+           * Because when that token is sent back to the server
+           * It needs to be decoded and the server knows which user it is,
+           * We also need to send a secret or key,
+           * and an expiration
+           
+          jwt.sign(
+            payload,
+   */
   // const payload = { id: user.id, name: user.name, avatar: user.avatar };
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
