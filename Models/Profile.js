@@ -8,24 +8,6 @@ const ProfileSchema = new Schema({
     //This will associate the user by his id
     type: Schema.Types.ObjectId,
     ref: "users"
-    //TODO: How does this automatically populate the user with the userId?I.e; How does it know the associated user?
-    /**
-     * {
-    "skills": [
-        "HTML",
-        "CSS",
-        "JAVASCRIPT",
-        "PHP"
-    ],
-    "_id": "5e36d4c14c12d61271e3727f",
-    "user": "5e326f3f313eb52fa6673acf",
-    "handle": "Ahmed Ghrib",
-    "status": "Developer",
-    "experience": [],
-    "education": [],
-    "__v": 0
-}
-     */
   },
   // We want a user friendl url
   handle: {
