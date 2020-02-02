@@ -8,6 +8,8 @@ const Profile = require("../../Models/Profile");
 // Load Users Model
 const User = require("../../Models/User");
 
+const validateProfileInput = require("../../validation/profile");
+
 // @route  GET api/profile/test
 // @desc   Tests profile route
 // @access Public
@@ -34,6 +36,8 @@ router.get(
     // Passport validates that it's him, and then responds with the 'decoded token info' in the request body
     // thus you can access it here with req.user.id
     Profile.findOne({ user: req.user.id })
+      /** Since we connected the Profile collection with the users collection, we are able to populate the user information into the response */
+      .populate("user", ["name", "avatar"])
       // #RR: User schema is associated with Profile schema
       // Usually findOne is done like this: User.findOne({ email: req.body.email }).then(user => {
       .then(profile => {
@@ -55,7 +59,17 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    // Before we do anything, we will validate the data
+    const { errors, isValid } = validateProfileInput(req.body);
+    // Check validation
+    if (!isValid) {
+      console.log("errors ; ", errors, " isValid : ", isValid);
+      return res.status(400).json(errors);
+    }
     // GET fields
+    console.log("req.body: ", req.body);
+    // #RR: After the login token is passed by the user to passport, passport extracts the userId from the token and retrieves the user data from the database and then returns it inside of request;
+    console.log("req.user: ", req.user);
     const profileFields = {};
     profileFields.user = req.user.id;
     if (req.body.handle) profileFields.handle = req.body.handle;
@@ -76,6 +90,7 @@ router.post(
     // We must initialize profileFields.social otherwise we will get an error
     // if we try to populate it since it doesn't exist.
     profileFields.social = {};
+    // TODO: How come I can validate with body.youtube? Do a console log.
     if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
     if (req.body.twitter) profileFields.social.twitter = req.body.twitter;
     if (req.body.facebook) profileFields.social.facebook = req.body.facebook;

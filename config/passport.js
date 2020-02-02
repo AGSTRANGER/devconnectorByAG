@@ -8,6 +8,7 @@ const keys = require("../config/keys");
 
 const opts = {};
 //PS: Notice how the Authorization header hasn't been explicitly passed to the code inside passport.js
+// TODO: Must understand the Bearer thing
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.SecretKey;
 // #RR:require("./config/passport")(passport);
