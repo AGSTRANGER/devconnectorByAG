@@ -328,4 +328,75 @@ router.post(
   }
 );
 
+// @route  DELETE api/profile/experience/:exp_id
+// @desc   Delete experience from profile
+// @access Private
+router.delete(
+  "/experience/:exp_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //#RR: req.user_id comes from the token
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // Get remove index
+        // This will get us the index of the experience to delete
+        const removeIndex = profile.experience
+          // This should return an array of the ids of the experiences
+          .map(item => item.id)
+          // This should return the INDEX of the experience id. I.e: its rank
+          .indexOf(req.params.exp_id);
+
+        //Splice out of array
+        profile.experience.splice(removeIndex, 1);
+
+        //Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route  DELETE api/profile/experience/:exp_id
+// @desc   Delete experience from profile
+// @access Private
+router.delete(
+  "/education/:edu_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //#RR: req.user_id comes from the token
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // Get remove index
+        // This will get us the index of the experience to delete
+        const removeIndex = profile.education
+          // This should return an array of the ids of the experiences
+          .map(item => item.id)
+          // This should return the INDEX of the experience id. I.e: its rank
+          .indexOf(req.params.exp_id);
+
+        //Splice out of array
+        profile.education.splice(removeIndex, 1);
+
+        //Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route  DELETE api/profile
+// @desc   Delete user and profile
+// @access Private
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
+      //Since this is the user collection, the matching will be done based on the _id not the user
+      User.findOneAndRemove({ _id: req.user.id }).then(() =>
+        res.json("User and profile deleted")
+      );
+    });
+  }
+);
 module.exports = router;
