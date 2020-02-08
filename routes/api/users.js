@@ -108,12 +108,13 @@ router.get(
     res.json("The current user is " + req.user.name);
   }
 );
-// @route  GET api/users/register
+// @route  POST api/users/register
 // @desc   Register user
 // @access Public
 router.post("/register", (req, res) => {
   // Before we do anything, we will validate the data
   const { errors, isValid } = validateRegisterInput(req.body);
+  console.log({ errors, isValid });
   // Check validation
   if (!isValid) {
     return res.status(400).json(errors);

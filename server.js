@@ -8,6 +8,8 @@ const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
 
+const Cors = require("cors");
+
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,6 +37,10 @@ app.use(passport.initialize());
 // In passport.js: module.exports = passport => {};
 // TODO: Why are we writing the following line here and note in users.js
 require("./config/passport")(passport);
+
+// Use Cors
+// #RR: This line should be before the other routing lines
+app.use(Cors());
 
 // Use routes
 app.use("/api/users", users);

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class Register extends Component {
   constructor() {
@@ -18,6 +19,7 @@ export default class Register extends Component {
       [e.target.name]: e.target.value
     });
   }
+
   onSubmit(e) {
     // Since it's a form, we don't want it to have its default behavior
     // TODO: What is the default behavior of form
@@ -28,7 +30,12 @@ export default class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    console.log(newUser);
+    axios
+      .post("http://localhost:5000/api/users/register", newUser)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log(err));
   }
   render() {
     return (
