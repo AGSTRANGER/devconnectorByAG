@@ -10,23 +10,31 @@ import Landing from "./components/layout/Landing";
 
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+// RR: Provider is a React component which provides our app with store which holds the state
+// It has to wrap around everything
+
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+const store = createStore(() => [], {}, applyMiddleware());
 
 class App extends Component {
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Route exact path="/" component={Landing}></Route>
-          <div className="container">
-            {/*  We will create a container that wraps everything except the landing page
-             *  because we want the landing page to span across the whole screen*/}
-            <Route exact path="/register" component={Register}></Route>
-            <Route exact path="/login" component={Login}></Route>
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <Navbar />
+            <Route exact path="/" component={Landing}></Route>
+            <div className="container">
+              {/*  We will create a container that wraps everything except the landing page
+               *  because we want the landing page to span across the whole screen*/}
+              <Route exact path="/register" component={Register}></Route>
+              <Route exact path="/login" component={Login}></Route>
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-      </Router>
+        </Router>
+      </Provider>
     );
   }
 }
