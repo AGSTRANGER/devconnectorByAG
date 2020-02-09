@@ -59,7 +59,7 @@ export default class Register extends Component {
                 <p className="lead text-center">
                   Create your DevConnector account
                 </p>
-                <form novalidate onSubmit={this.onSubmit}>
+                <form noValidate onSubmit={this.onSubmit}>
                   <div className="form-group">
                     {/* The first parameter of classnames are the default classNames 
                     The second parameter is the condition to apply is-invalid

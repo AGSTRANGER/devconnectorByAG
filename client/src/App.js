@@ -14,8 +14,7 @@ import Login from "./components/auth/Login";
 // It has to wrap around everything
 
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-const store = createStore(() => [], {}, applyMiddleware());
+import store from "./store";
 
 class App extends Component {
   render() {
