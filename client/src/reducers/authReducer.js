@@ -1,5 +1,5 @@
-import { GET_ERRORS } from "../actions/types";
-
+import { SET_CURRENT_USER } from "../actions/types";
+import isEmpty from "../validation/isEmpty";
 const initialState = {
   isAuthenticated: false,
   user: {}
@@ -18,7 +18,16 @@ export default function(state = initialState, action) {
         user: action.payload
       };
      */
-
+    case SET_CURRENT_USER:
+      return {
+        ...state,
+        // Because, if the payload which is the decoded token is filled that means that the user is authenticated
+        // If it's an empty object then we shouldn't be authenticated
+        // This way when we want to log-out  we can simply pass an empty object in the payload :)
+        // And the user will go back to being an empty object
+        isAuthenticated: !isEmpty(action.payload),
+        user: action.payload
+      };
     default:
       return state;
   }

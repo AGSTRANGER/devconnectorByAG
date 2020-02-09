@@ -45,7 +45,8 @@ class Register extends Component {
       password2: this.state.password2
     };
     // Any action that we bring-in is going to be stored inside props
-    this.props.registeruser(newUser);
+    // The 2nd param will allow us to redirect from inside the action registerUser
+    this.props.registeruser(newUser, this.props.history);
   }
   render() {
     // Using DECONSTRUCTING here: Using the braces will allow me to pull errors from the state instead
@@ -165,4 +166,4 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
-export default connect(mapStateToProps, { registeruser })(Register);
+export default connect(mapStateToProps, { registeruser })(withRouter(Register));
