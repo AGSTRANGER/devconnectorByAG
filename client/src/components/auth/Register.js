@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
 import classnames from "classnames";
+// This is used to connect redux to this component
+// A container is a redux component that works with redux
 
-export default class Register extends Component {
+import { connect } from "react-redux";
+import { registeruser } from "../../actions/authActions";
+
+import { withRouter } from "react-router-dom";
+class Register extends Component {
   constructor() {
     super();
     this.state = {
@@ -15,6 +21,13 @@ export default class Register extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  //This runs when the component receives new properties
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps });
+    }
+  }
+
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -31,18 +44,8 @@ export default class Register extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    axios
-      //package.json: "proxy": "http://localhost:5000",
-      .post("/api/users/register", newUser)
-      .then(res => {
-        // if status is 200 this will run
-        console.log(res.data);
-      })
-      .catch(err => {
-        // if status is 400 for example this will run
-        this.setState({ errors: err.response.data });
-        console.log(err);
-      });
+    // Any action that we bring-in is going to be stored inside props
+    this.props.registeruser(newUser);
   }
   render() {
     // Using DECONSTRUCTING here: Using the braces will allow me to pull errors from the state instead
@@ -145,3 +148,21 @@ export default class Register extends Component {
     );
   }
 }
+//TODO: Why do I have to use propTypes
+Register.propTypes = {
+  // Remember that registerUser is an action but it's also a property
+  //this.props.registeruser(newUser);
+  registeruser: PropTypes.func.isRequired,
+  // auth is also a property; inside mapStateToProps
+  // TODO: What does isRequired mean
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+/**This function should take state as an argument, then return an object which maps that state to specific property names.
+ * These properties will become accessible to your component via props.
+ */
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(mapStateToProps, { registeruser })(Register);

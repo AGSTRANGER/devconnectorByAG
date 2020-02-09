@@ -1,3 +1,4 @@
+// How is store connected to the component Register?
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 // We don't have to put index.js because we called our root reducer index.js
