@@ -46,25 +46,26 @@ export const registeruser = (userData, history) => dispatch => {
   };*/
 };
 
-// REGISTER
-export const loginUser = (userData, history) => dispatch => {
+// Login - Get User Token
+export const loginUser = userData => dispatch => {
   axios
     .post("/api/users/login", userData)
     .then(res => {
-      console.log(res.data);
+      console.log("inside res");
+      console.log("res.data; ", res.data);
+      // Save to localStorage
       const { token } = res.data;
-      // set token to ls
-      // localStorage only stores strings
+      // Set token to ls
       localStorage.setItem("jwtToken", token);
-      // set token to Auth header
+      // Set token to Auth header
       setAuthToken(token);
-      // decode token to get user data
+      // Decode token to get user data
       const decoded = jwt_decode(token);
-      // set current user
+      // Set current user
       dispatch(setCurrentUser(decoded));
-      history.push("/");
     })
     .catch(err => {
+      console.log("inside err");
       console.log(err);
       dispatch({
         type: GET_ERRORS,
@@ -73,10 +74,20 @@ export const loginUser = (userData, history) => dispatch => {
     });
 };
 
-// Set logged-in user
+// Set logged in user
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
   };
+};
+
+// Log user out
+export const logoutUser = () => dispatch => {
+  // Remove token from localStorage
+  localStorage.removeItem("jwtToken");
+  // Remove auth header for future requests
+  setAuthToken(false);
+  // Set current user to {} which will set isAuthenticated to false
+  dispatch(setCurrentUser({}));
 };

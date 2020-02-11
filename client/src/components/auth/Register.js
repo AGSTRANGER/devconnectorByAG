@@ -12,10 +12,8 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
       email: "",
       password: "",
-      password2: "",
       errors: ""
     };
     this.onChange = this.onChange.bind(this);
@@ -107,7 +105,6 @@ class Register extends Component {
                   <div className="form-group">
                     <input
                       type="password"
-                      className="form-control form-control-lg"
                       className={classnames("form-control form-control-lg", {
                         "is-invalid": errors.password
                       })}
