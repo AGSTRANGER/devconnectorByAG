@@ -16,6 +16,24 @@ import Login from "./components/auth/Login";
 import { Provider } from "react-redux";
 import store from "./store";
 
+// This is to keep the user logged-in once he has logged-in
+import jwt_decode from "jwt-decode";
+import setAuthToken from "./utils/setAuthToken";
+import { setCurrentUser } from "./actions/authActions";
+
+// Check for token
+// We will basically do the same thing we did in the login action
+// But, this will be done every time the user requests a page to make sure if he's logged in or not
+if (localStorage.jwtToken) {
+  // Set auth token header auth
+  setAuthToken(localStorage.jwtToken);
+  // Decode token and get user info and expiration
+  const decoded = jwt_decode(localStorage.jwtToken);
+  // Set User and is Authenticated
+  store.dispatch(setCurrentUser(decoded));
+  // Now if you reload a page, if the user has already logged-in you will still have his info in he state
+}
+
 class App extends Component {
   render() {
     return (
