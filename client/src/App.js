@@ -32,6 +32,16 @@ if (localStorage.jwtToken) {
   // Set User and is Authenticated
   store.dispatch(setCurrentUser(decoded));
   // Now if you reload a page, if the user has already logged-in you will still have his info in he state
+
+  // Check for expired token
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    // Logout User
+    store.dispatch(logoutUser());
+    // TODO: Clear current profile
+    // Redirect to login
+    window.location.href = "/login";
+  }
 }
 
 class App extends Component {
