@@ -19,7 +19,7 @@ import store from "./store";
 // This is to keep the user logged-in once he has logged-in
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
-import { setCurrentUser } from "./actions/authActions";
+import { setCurrentUser, logoutUser } from "./actions/authActions";
 
 // Check for token
 // We will basically do the same thing we did in the login action

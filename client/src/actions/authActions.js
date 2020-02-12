@@ -26,7 +26,7 @@ export const registeruser = (userData, history) => dispatch => {
       //this.setState({ errors: err.response.data });
       console.log(err);
       // This is where thunk comes into play
-      // Instead of returning we will be using dispatch
+      // Instead of returning we will be using
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
