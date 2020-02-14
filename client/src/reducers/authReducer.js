@@ -18,6 +18,7 @@ export default function(state = initialState, action) {
         user: action.payload
       };
      */
+
     case SET_CURRENT_USER:
       return {
         ...state,

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 // This is used to connect redux to this component
 // A container is a redux component that works with redux
 

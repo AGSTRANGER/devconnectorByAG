@@ -11,6 +11,8 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 
+import Dashboard from "./components/dashboard/Dashboard";
+
 // RR: Provider is a React component which provides our app with store which holds the state
 // It has to wrap around everything
 import { Provider } from "react-redux";
@@ -20,6 +22,7 @@ import store from "./store";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { clearCurrentProfile } from "./actions/profileActions";
 
 // Check for token
 // We will basically do the same thing we did in the login action
@@ -32,6 +35,7 @@ if (localStorage.jwtToken) {
   // Set User and is Authenticated
   store.dispatch(setCurrentUser(decoded));
   // Now if you reload a page, if the user has already logged-in you will still have his info in he state
+  store.dispatch(clearCurrentProfile());
 
   // Check for expired token
   const currentTime = Date.now() / 1000;
@@ -57,6 +61,7 @@ class App extends Component {
                *  because we want the landing page to span across the whole screen*/}
               <Route exact path="/register" component={Register}></Route>
               <Route exact path="/login" component={Login}></Route>
+              <Route exact path="/dashboard" component={Dashboard}></Route>
             </div>
             <Footer />
           </div>
