@@ -1,7 +1,7 @@
-module.exports = {
-  mongoURI:
-    "mongodb+srv://Ahmed:TMOW5F6iq9Mgtbp5@cluster0-shqnc.mongodb.net/test?retryWrites=true&w=majority",
-  //For JWT
-  // TODO: What's the role of SecretKey?
-  SecretKey: "secret"
-};
+if (process.env.NODE_ENV === "production") {
+  // If we're in Heroku it should load this
+  module.exports = require("./keys_prod");
+} else {
+  // If we're still in local, it should load this
+  module.exports = require("./keys_dev");
+}
