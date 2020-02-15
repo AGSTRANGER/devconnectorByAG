@@ -27,6 +27,16 @@ import { clearCurrentProfile } from "./actions/profileActions";
 
 // Private route
 import PrivateRoute from "./components/common/privateRoute";
+
+import CreateProfile from "./components/create-profile/CreateProfile";
+import EditProfile from "./components/edit-profile/EditProfile";
+import AddExperience from "./components/add-credentials/AddExperience";
+import AddEducation from "./components/add-credentials/AddEducation";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
+import NotFound from "./components/not-found/NotFound";
 // Check for token
 // We will basically do the same thing we did in the login action
 // But, this will be done every time the user requests a page to make sure if he's logged in or not
@@ -64,17 +74,52 @@ class App extends Component {
                *  because we want the landing page to span across the whole screen*/}
               <Route exact path="/register" component={Register}></Route>
               <Route exact path="/login" component={Login}></Route>
+              <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:handle" component={Profile} />
               {/* Bringing-in Switch after setting-up the private Route to dashboard
                  Because otherwise we will have problems with Redirect
                  The switch will allow us to redirect after we log-out
-                 If we don't put switch, it will just stay on that page */}
+                 If we don't put switch, it will just stay there */}
               <Switch>
                 <PrivateRoute
                   exact
                   path="/dashboard"
                   component={Dashboard}
                 ></PrivateRoute>
+                <PrivateRoute
+                  exact
+                  path="/create-profile"
+                  component={CreateProfile}
+                ></PrivateRoute>
               </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/edit-profile"
+                  component={EditProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-experience"
+                  component={AddExperience}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-education"
+                  component={AddEducation}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/post/:id" component={Post} />
+              </Switch>
+              <Route exact path="/not-found" component={NotFound} />
             </div>
             <Footer />
           </div>

@@ -3,13 +3,15 @@ import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
 import profileReducer from "./profileReducer";
+import postReducer from "./postReducer";
 // This is importd inside store
 export default combineReducers({
   // When we use anything in our Auth reducers in our components we will use this.props.auth
   // If we want to call an action or something like that
   auth: authReducer,
   errors: errorReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  post: postReducer
 });
 /**
  * In Register.js

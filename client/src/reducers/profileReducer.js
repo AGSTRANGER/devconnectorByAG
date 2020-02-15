@@ -1,20 +1,18 @@
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE
 } from "../actions/types";
 
 const initialState = {
   profile: null,
+  //TODO: What is the need for this state?
   profiles: null,
   loading: false
 };
 
 export default function(state = initialState, action) {
-  console.log("INSIDE REDUCER.");
-  console.log("Action.type: ");
-  console.log(action);
-
   switch (action.type) {
     case PROFILE_LOADING:
       return {
@@ -28,6 +26,12 @@ export default function(state = initialState, action) {
         loading: false
       };
     }
+    case GET_PROFILES:
+      return {
+        ...state,
+        profiles: action.payload,
+        loading: false
+      };
     case CLEAR_CURRENT_PROFILE:
       return {
         ...state,
