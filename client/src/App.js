@@ -1,6 +1,7 @@
 // TODO: Why is component imported inside of brackets
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 
@@ -24,6 +25,8 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
 
+// Private route
+import PrivateRoute from "./components/common/privateRoute";
 // Check for token
 // We will basically do the same thing we did in the login action
 // But, this will be done every time the user requests a page to make sure if he's logged in or not
@@ -61,7 +64,17 @@ class App extends Component {
                *  because we want the landing page to span across the whole screen*/}
               <Route exact path="/register" component={Register}></Route>
               <Route exact path="/login" component={Login}></Route>
-              <Route exact path="/dashboard" component={Dashboard}></Route>
+              {/* Bringing-in Switch after setting-up the private Route to dashboard
+                 Because otherwise we will have problems with Redirect
+                 The switch will allow us to redirect after we log-out
+                 If we don't put switch, it will just stay on that page */}
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/dashboard"
+                  component={Dashboard}
+                ></PrivateRoute>
+              </Switch>
             </div>
             <Footer />
           </div>
