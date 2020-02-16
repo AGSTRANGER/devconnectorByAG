@@ -4,7 +4,7 @@
 /**Here we will use environment variables to store the key */
 module.exports = {
   // MONGO_URI is an arbitrary choice, it can be anything
-  mongoUri: process.env.MONGO_URI,
+  mongoURI: process.env.MONGO_URI,
   SecretKey: process.env.SECRET_OR_KEY
 };
 /** We can add those variables through the Heroku interface

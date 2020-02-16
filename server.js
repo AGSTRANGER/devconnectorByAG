@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //Now we should be able to access request.body.whatever
 // DB Config
-const db = require("./config/keys").mongoUri;
+const db = require("./config/keys").mongoURI;
 
 // Connect to MongoDB
 mongoose
